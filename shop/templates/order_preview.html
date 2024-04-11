@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Preview</title>
+</head>
+<body>
+    <div>
+        <strong>Name: </strong>{{ address_choosed.first_name }} {{ address_choosed.last_name }}<br>
+        <strong>Phone: </strong>{{ address_choosed.phone }}<br>
+        <strong>Alternate Phone: </strong>{{ address_choosed.phone2 }}<br>
+        <strong>House No: </strong>{{ address_choosed.house_no }}<br>
+        <strong>Pin Code: </strong>{{ address_choosed.pin_code }}<br>
+        <strong>Place: </strong>{{ address_choosed.place }}<br>
+        <strong>Landmark: </strong>{{ address_choosed.landmark }}<br>
+
+        <!-- Link to change address -->
+        <a href="{% url 'select_address' %}" class="btn btn-dark">Change Address</a>
+    </div>
+    <hr>
+
+    <!-- Cart items -->
+    {% for cart_item in cart_data %}
+        <div>
+            <p><strong>Product: </strong>{{ cart_item.product.product_name }}</p>
+            <p><strong>Quantity: </strong>{{ cart_item.quantity }}</p>
+            <p><strong>Price per unit: </strong>{{ cart_item.product.price }}</p>
+            <p><strong>Selected Number: </strong>{{ cart_item.selected_no }}</p>
+            <p><strong>Total: </strong>{{ cart_item.total }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+
+    <!-- Grand total -->
+    <p><strong>Total Amount: </strong>{{ grand_total }}</p>
+
+    <!-- Link to place order -->
+<a href="{% url 'save_order' address_id=address_choosed.id  %}" class="btn btn-primary">Place Order</a>
+</body>
+</html>
