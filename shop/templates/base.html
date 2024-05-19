@@ -153,9 +153,10 @@
                         </div>
                     </div>
                     <div class="col-xxl-5 col-lg-5 d-none d-lg-block">
-                        <form action="#">
+                        <form action="" method="post">
+                            {% csrf_token %}
                             <div class="input-group">
-                                <input class="form-control rounded" type="search" placeholder="Search for products" />
+                                <input class="form-control rounded" type="search" placeholder="Search for products" name="products" />
                                 <span class="input-group-append">
 								<button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
 									<svg
@@ -178,17 +179,28 @@
                             </div>
                         </form>
                     </div>
+
+
                     <div class="col-md-2 col-xxl-3 d-none d-lg-block">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-outline-gray-400 text-muted" data-bs-toggle="modal" data-bs-target="#locationModal">
-						<i class="feather-icon icon-map-pin me-2"></i>
-						Location
-					</button>
+<!--                        <button type="button" class="btn btn-outline-gray-400 text-muted" data-bs-toggle="modal" data-bs-target="#locationModal">-->
+<!--						<i class="feather-icon icon-map-pin me-2"></i>-->
+<!--						Location-->
+<!--					</button>-->
                     </div>
+
+
+                    {% if user.is_authenticated %}
                     <div class="col-lg-2 col-xxl-2 text-end col-md-6 col-7">
                         <div class="list-inline">
                             <div class="list-inline-item me-5">
-                                <a href="{% url 'wishlist' %}" class="text-muted position-relative">
+
+                                    {% if user.is_authenticated %}
+                                <a class="text-muted position-relative"  data-bs-target="#offcanvasRight" href="{% url 'wishlist' %}" role="button" aria-controls="offcanvasRight">
+                                    <a href="{% url 'wishlist' %}" class="text-muted position-relative">
+                                 {% else %}
+                                    <a href="{% url 'signin' %}" class="text-muted position-relative">
+                                {% endif %}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="20"
@@ -254,7 +266,7 @@
 								</svg>
 							</a>
                                     <ul class="dropdown-menu">
-                                         <li><a class="dropdown-item" href="./pages/account-orders.html">Orders</a></li>
+                                         <li><a class="dropdown-item" href="{% url 'order_view' %}">Orders</a></li>
                                                 <li><a class="dropdown-item" href="./pages/account-settings.html">Settings</a></li>
                                                 <li><a class="dropdown-item" href="./pages/account-address.html">Address</a></li>
                                                 <li><a class="dropdown-item" href="./pages/account-payment-method.html">Payment Method</a></li>
@@ -266,9 +278,13 @@
                             </div>
 
 
-
                             <div class="list-inline-item me-5 me-lg-0">
-                                <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
+                                {% if user.is_authenticated %}
+                                <a class="text-muted position-relative"  data-bs-target="#offcanvasRight" href="{% url 'cart' %}" role="button" aria-controls="offcanvasRight">
+                                 {% else %}
+                                    <a class="text-muted position-relative"  data-bs-target="#offcanvasRight" href="{% url 'signin' %}" role="button" aria-controls="offcanvasRight">
+
+                                {% endif %}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="20"
@@ -286,11 +302,13 @@
 									<path d="M16 10a4 4 0 0 1-8 0"></path>
 								</svg>
 								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-									1
+									{{cart_items_count}}
 									<span class="visually-hidden">unread messages</span>
 								</span>
 							</a>
                             </div>
+
+
                             <div class="list-inline-item d-inline-block d-lg-none">
                                 <!-- Button -->
                                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-default" aria-controls="navbar-default" aria-label="Toggle navigation">
@@ -303,7 +321,20 @@
                             </div>
                         </div>
                     </div>
-                </div>
+
+                     {% else %}
+                <div class="col-lg-2 col-xxl-2 text-end col-md-6 col-7">
+                        <div class="list-inline">
+                            <div class="list-inline-item me-5">
+
+                <a href="{% url 'signin' %}" class="btn btn-primary px-6" type="button">Sign In</a>
+
+                            </div>
+                            </div>
+                            </div>
+                        {% endif %}
+
+
             </div>
         </div>
 

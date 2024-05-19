@@ -39,15 +39,15 @@ def signup(request):
         if form.is_valid():
             otp = ''.join([str(random.randint(0, 9)) for _ in range(4)])
             print(otp)
-            # send_otp_email(form.cleaned_data['email'], otp)
+            send_otp_email(form.cleaned_data['email'], otp)
             request.session['otp'] = otp
             request.session['email'] = form.cleaned_data['email']
             request.session['password'] = form.cleaned_data['password1']
             request.session['first_name'] = form.cleaned_data['first_name']
             request.session['last_name'] = form.cleaned_data['last_name']
             messages.success(request, 'Enter OTP  verify your email.')
-            verify_otp(request,otp)
-            # return redirect('verify_otp')
+            # verify_otp(request)
+            return redirect('verify_otp')
 
     else:
         form = RegisterForm()
@@ -80,7 +80,7 @@ def verify_otp(request):
             else:
                 return render(request, 'verify_otp.html', {'error_message': 'Invalid Form Data'})
         else:
-
+            messages.danger(request, 'Invalid OTP ')
             return render(request, 'verify_otp.html', {'error_message': 'Invalid OTP'})
 
     else:
@@ -154,3 +154,6 @@ def change_password(request, token):
 def logoutfun(request):
     auth.logout(request)
     return redirect(signin)
+
+
+

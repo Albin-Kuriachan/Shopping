@@ -7,7 +7,7 @@ class AddressForm(forms.ModelForm):
 
     class Meta:
         model = Address
-        fields = ['first_name', 'last_name', 'phone', 'phone2', 'address_line', 'house_no', 'pin_code', 'place', 'landmark','is_default']
+        fields = ['first_name', 'last_name', 'phone', 'phone2', 'address_line', 'pin_code', 'place', 'landmark','is_default']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off', 'placeholder': 'First Name','required':'required'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off', 'placeholder': 'Last Name','required':'required'}),

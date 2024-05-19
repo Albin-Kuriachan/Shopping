@@ -24,8 +24,40 @@
             </div>
          </div>
          <!-- section -->
+<!-- Include Bootstrap CSS and JS -->
+<!--<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Messages -->
+{% if messages %}
+    <div id="message-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- JavaScript to handle pop-up -->
+<script>
+    $(document).ready(function(){
+        $('#message-container .alert').each(function(){
+            // Show the alert with fade effect
+            $(this).fadeIn();
+
+            // Automatically close the alert after 5 seconds
+            $(this).delay(5000).fadeOut();
+        });
+    });
+</script>
+
+
          <section class="mt-8 mb-14">
             <div class="container">
+               {% if cart_data %}
                <!-- row -->
                <div class="row">
                   <div class="col-lg-12">
@@ -152,8 +184,21 @@
                      </div>
                   </div>
                </div>
+
+                {% else %}
+
+<div style="margin-left:300px;">
+   <img src="{% static 'assets/images/empty cart.png' %}" alt="Empty Cart"><br>
+   <a href="{% url 'index' %}" type="button" class="btn btn-success" style="margin-top:-200px;margin-left:170px;">Continue Shopping</a>
+</div>
+
+
+{% endif %}
             </div>
          </section>
+
       </main>
+
+
 
 {% endblock %}
